@@ -15,4 +15,4 @@ GRAVITY = pygame.Vector2(0, 9.8)
 
 #physics
 
-BOUNCE_DAMP = 0.5
+BOUNCE_DAMP = 1

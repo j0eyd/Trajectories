@@ -8,9 +8,9 @@ def main():
 	pygame.init()
 	#set up display
 	FPS = pygame.time.Clock()
-	FPS.tick(60)
+	FPS.tick(240)
 	SCREEN.fill(WHITE)
-	x = circle(SCREEN, 10.0, pygame.Vector2(200, 200), pygame.Vector2(100,0))
+	x = circle(SCREEN, 50.0, pygame.Vector2(300, 500), pygame.Vector2(-20,-80))
 	#game loop
 	while True:
 		for event in pygame.event.get():
