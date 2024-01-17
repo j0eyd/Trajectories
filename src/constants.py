@@ -10,3 +10,9 @@ SOFT_PURPLE = (115, 50, 180)
 
 SCREEN_HEIGHT = 888; SCREEN_WIDTH = 500
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+
+GRAVITY = pygame.Vector2(0, 9.8)
+
+#physics
+
+BOUNCE_DAMP = 0.5
