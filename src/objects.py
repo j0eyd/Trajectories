@@ -30,12 +30,21 @@ class circle():
 			  speed = pygame.Vector2(0, 0), color = getRandCol()):
 		self.o = object(surface, pos, speed, color)
 		self.radius = radius
-	
+
 	def draw(self):
 		pygame.draw.circle(self.o.surface, self.o.color, self.o.pos, self.radius)
 	
-	def updatePosScreen(self):
+	#returns the maxHeight the ball went to, draws it if draw == True
+	def ballMaxHeight(self, maxHeight = SCREEN_HEIGHT, draw = False):
+		if (self.o.pos.y - self.radius < maxHeight):
+			maxHeight = self.o.pos.y - self.radius
+		if draw:
+			rectangle = pygame.Rect(0, maxHeight-5, SCREEN_WIDTH, 5)
+			pygame.draw.rect(SCREEN, RED, rectangle)
+		return maxHeight
 
+	#handles collisions with walls
+	def updatePosScreen(self):
 		outXright = (self.o.pos.x + self.radius > SCREEN_WIDTH)
 		outXleft = (self.o.pos.x - self.radius < 0)
 		outYdown = (self.o.pos.y + self.radius > SCREEN_HEIGHT)
@@ -69,3 +78,6 @@ class circle():
 			self.o.pos.x = self.radius
 			self.o.speed.x *= -BOUNCE_DAMP
 			self.o.pos.y += self.o.speed.y / 60
+
+def createOnClick(list, position, speed):
+		list.append(x)

@@ -1,28 +1,57 @@
 import pygame
 import sys
+import random
 from pygame.locals import *
 from constants import *
 from objects import *
 
 def main():
-	pygame.init()
-	#set up display
-	FPS = pygame.time.Clock()
-	FPS.tick(240)
-	SCREEN.fill(WHITE)
-	x = circle(SCREEN, 50.0, pygame.Vector2(300, 500), pygame.Vector2(-20,-80))
-	#game loop
-	while True:
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				pygame.quit()
-				sys.exit()
-		if (x.o.speed.y != 0 or x.o.pos.y != SCREEN_HEIGHT - x.radius):
-			pullSpeed(x.o.speed, GRAVITY)
-		x.updatePosScreen()
-		SCREEN.fill(WHITE)
-		x.draw()
-		pygame.display.update()
+    pygame.init()
+
+    # Set up display
+    FPS = pygame.time.Clock()
+    FPS.tick(60)
+
+    # Objects
+    balls = []
+    mousePosList = [pygame.Vector2(pygame.mouse.get_pos()) for _ in range(2)]
+    clickDown = False
+
+    # Game loop
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+        # Check if the left mouse button is pressed
+        if pygame.mouse.get_pressed()[0]:
+            clickDown = True
+            mousePos = pygame.Vector2(pygame.mouse.get_pos())
+            if mousePos != mousePosList[1]:
+                mousePosList[0], mousePosList[1] = mousePosList[1], mousePos
+                print(f"{mousePosList[1].x} {mousePosList[1].y}")
+
+        # Check for mouse button release
+        if event.type == MOUSEBUTTONUP and clickDown:
+            pos = mousePosList[1]
+            x = circle(SCREEN, random.randint(1, 100), pos, mousePosList[1] - mousePosList[0], getRandCol())
+            balls.append(x)
+            mousePosList = [pygame.Vector2(pygame.mouse.get_pos()) for _ in range(2)]
+            clickDown = False
+
+        # Update objects
+        for ball in balls:
+            if ball.o.speed.y != 0 or ball.o.pos.y != SCREEN_HEIGHT - ball.radius:
+                pullSpeed(ball.o.speed, GRAVITY)
+            ball.updatePosScreen()
+
+        # Update screen
+        SCREEN.fill(BLACK)
+        for ball in balls:
+            ball.draw()
+
+        pygame.display.update()
 
 if __name__ == "__main__":
-	main()
+    main()
