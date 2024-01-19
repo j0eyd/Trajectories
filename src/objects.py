@@ -1,5 +1,6 @@
 import pygame
 import random
+import math as m
 from constants import *
 
 #random color
@@ -42,6 +43,18 @@ class circle():
 			rectangle = pygame.Rect(0, maxHeight-5, SCREEN_WIDTH, 5)
 			pygame.draw.rect(SCREEN, RED, rectangle)
 		return maxHeight
+
+	def ballCollision(self, other):
+		radiusSum = self.radius + other.radius
+		sPos = pygame.math.Vector2(self.o.pos)
+		oPos = pygame.math.Vector2(other.o.pos)
+		#Pythagorean theorem
+		#collision
+		if (radiusSum > sPos.distance_to(oPos)):
+			sRadius = self.radius
+			oRadius = other.radius
+			self.o.speed = self.o.speed.reflect(oPos-sPos)
+			other.o.speed = other.o.speed.reflect(oPos-sPos)
 
 	#handles collisions with walls
 	def updatePosScreen(self):
